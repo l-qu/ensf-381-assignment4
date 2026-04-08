@@ -1,0 +1,98 @@
+[ 
+    { 
+      "id": 1, 
+      "name": "Vanilla Dream", 
+      "price": "$4.99", 
+      "description": "Classic creamy vanilla ice cream made with fresh ingredients.", 
+      "duration": "8 weeks", 
+      "image": "images/vanilla.jpg" 
+    }, 
+    { 
+      "id": 2, 
+      "name": "Chocolate Bliss", 
+      "price": "$4.99", 
+      "description": " Classic creamy vanilla ice cream but instead of vanilla, it's chocolate.", 
+      "duration": "9 weeks", 
+      "image": "images/chocolate.jpg" 
+    }, 
+    { 
+      "id": 3, 
+      "name": "Strawberry Delight", 
+      "price": "$5.99", 
+      "description": "Taste the fresh strawberries melting on your tongue!", 
+      "duration": "5 weeks", 
+      "image": "images/strawberry.jpg" 
+    }, 
+    { 
+      "id": 4, 
+      "name": "Minty Toothpaste", 
+      "price": "$6.99", 
+      "description": "Leaves your breath fresh and clean with our special spearmint cream.", 
+      "duration": "3 weeks", 
+      "image": "images/mint.jpg" 
+    }, 
+    { 
+      "id": 5, 
+      "name": "Radioactive Sludge", 
+      "price": "$5.99", 
+      "description": "A lime flavoured ice cream that never seems to go bad!.", 
+      "duration": "Forever...?", 
+      "image": "images/radioactive.jpeg" 
+    }, 
+    { 
+      "id": 6, 
+      "name": "Tiger Prowl", 
+      "price": "$7.99", 
+      "description": "Orange and black licorice ice cream that makes you hunt like a tiger", 
+      "duration": "4 weeks", 
+      "image": "images/tiger.jpeg" 
+    }, 
+    { 
+      "id": 7, 
+      "name": "Unicorn", 
+      "price": "$7.99", 
+      "description": "Beware! Might give you magical abilities!", 
+      "duration": "7 weeks", 
+      "image": "images/unicorn.jpg" 
+    }, 
+    { 
+      "id": 8, 
+      "name": "Mac and Cream", 
+      "price": "$8.99", 
+      "description": "A cheesy twist on savoury ice cream!", 
+      "duration": "2 weeks", 
+      "image": "images/mac.jpeg" 
+    }, 
+    { 
+      "id": 9, 
+      "name": "Stop Light", 
+      "price": "$5.99", 
+      "description": "A normal Vanilla Dream but dyed red just for fun!", 
+      "duration": "8 weeks", 
+      "image": "images/stop.jpeg" 
+    }, 
+    { 
+      "id": 10, 
+      "name": "Prickly Pear", 
+      "price": "$7.99", 
+      "description": "A wonderful pear flavour that gets better (and more painful) the more you chew!", 
+      "duration": "9 weeks", 
+      "image": "images/cactus.jpg" 
+    },
+    { 
+      "id": 11, 
+      "name": "Ice Olive Oil Cream", 
+      "price": "$8.99", 
+      "description": "Smooth and surprisingly not gross", 
+      "duration": "3 weeks", 
+      "image": "images/olive.jpeg" 
+    },
+    { 
+      "id": 12, 
+      "name": "Chili Ice Cream", 
+      "price": "$8.99", 
+      "description": "Beat the heat with something sweet!", 
+      "duration": "9 weeks", 
+      "image": "images/chili.jpg" 
+    }
+]

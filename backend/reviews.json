@@ -1,0 +1,26 @@
+[ 
+    { 
+      "customerName": "Alice Johnson", 
+      "flavorName": "Vanilla Dream", 
+      "review": "The ice cream was delicious and very creamy!", 
+      "rating": 5 
+    }, 
+    { 
+      "customerName": "Nick Smith", 
+      "flavorName": "Radioactive Sludge", 
+      "review": "Ice cream was good but now I glow. Not complaining though.", 
+      "rating": 5
+    }, 
+    { 
+      "customerName": "Casey Castaneda", 
+      "flavorName": "Prickly Pear",
+      "review": "OWWWWWWW", 
+      "rating": 1 
+    }, 
+    { 
+      "customerName": "Sam Dean", 
+      "flavorName": "Unicorn", 
+      "review": "Didn't get magical abilities. False advertising.", 
+      "rating": 2 
+    }
+]
