@@ -158,3 +158,256 @@ def get_flavors():
         "message": "Flavors loaded.",
         "flavors": flavors
     })
+
+@app.route("/cart", methods=["GET"])
+def get_cart():
+    user_id = request.args.get("userId")
+    try:
+        user_id = int(user_id)
+    except ValueError:
+        return jsonify({
+            "success": False,
+            "message": "Invalid userId."
+        }), 400
+    user = None
+    for current_user in users:
+        if current_user["id"] == user_id:
+            user = current_user
+            break
+    if not user:
+        return jsonify({
+            "success": False,
+            "message": "User not found."
+        }), 404
+    return jsonify({
+        "success": True,
+        "message": "Cart loaded.",
+        "cart": user["cart"]
+    })
+
+def get_flavor_by_id(flavor_id):
+    for flavor in flavors:
+        if flavor["id"] == flavor_id:
+            return flavor
+    return None
+
+@app.route("/cart", methods=["POST"])
+def add_to_cart():
+    data = request.json
+    user_id = data.get("userId")
+    flavor_id = data.get("flavorId")
+    if not user_id or not flavor_id:
+        return jsonify({
+            "success": False,
+            "message": "userId and flavorId are required."
+        }), 400
+    user = None
+    for current_user in users:
+        if current_user["id"] == user_id:
+            user = current_user
+            break
+    if not user:
+        return jsonify({
+            "success": False,
+            "message": "User not found."
+        }), 404
+    flavor = get_flavor_by_id(flavor_id)
+    if not flavor:
+        return jsonify({
+            "success": False,
+            "message": "Flavor not found."
+        }), 404
+    for item in user["cart"]:
+        if item["flavorId"] == flavor_id:
+            return jsonify({
+                "success": False,
+                "message": "Flavor already in cart. Use PUT /cart to update quantity."
+            }), 400
+    cart_item = {
+        "flavorId": flavor["id"],
+        "name": flavor["name"],
+        "price": flavor["price"],
+        "quantity": 1
+    }
+    user["cart"].append(cart_item)
+    return jsonify({
+        "success": True,
+        "message": "Flavor added to cart.",
+        "cart": user["cart"]
+    })
+
+@app.route("/cart", methods=["PUT"])
+def update_cart_quantity():
+    data = request.json
+    user_id = data.get("userId")
+    flavor_id = data.get("flavorId")
+    quantity = data.get("quantity")
+    if user_id is None or flavor_id is None or quantity is None:
+        return jsonify({
+            "success": False,
+            "message": "userId, flavorId, and quantity are required."
+        }), 400
+    try:
+        user_id = int(user_id)
+        flavor_id = int(flavor_id)
+        quantity = int(quantity)
+    except ValueError:
+        return jsonify({
+            "success": False,
+            "message": "Invalid input type."
+        }), 400
+    if quantity < 1:
+        return jsonify({
+            "success": False,
+            "message": "Quantity must be at least 1."
+        }), 400
+    user = None
+    for current_user in users:
+        if current_user["id"] == user_id:
+            user = current_user
+            break
+    if not user:
+        return jsonify({
+            "success": False,
+            "message": "User not found."
+        }), 404
+    item_found = False
+    for item in user["cart"]:
+        if item["flavorId"] == flavor_id:
+            item["quantity"] = quantity
+            item_found = True
+            break
+    if not item_found:
+        return jsonify({
+            "success": False,
+            "message": "Flavor not found in cart."
+        }), 404
+    return jsonify({
+        "success": True,
+        "message": "Cart updated successfully.",
+        "cart": user["cart"]
+    })
+
+@app.route("/cart", methods=["DELETE"])
+def delete_cart_item():
+    data = request.json
+    user_id = data.get("userId")
+    flavor_id = data.get("flavorId")
+    if user_id is None or flavor_id is None:
+        return jsonify({
+            "success": False,
+            "message": "userId and flavorId are required."
+        }), 400
+    try:
+        user_id = int(user_id)
+        flavor_id = int(flavor_id)
+    except ValueError:
+        return jsonify({
+            "success": False,
+            "message": "Invalid input type."
+        }), 400
+    user = None
+    for current_user in users:
+        if current_user["id"] == user_id:
+            user = current_user
+            break
+    if not user:
+        return jsonify({
+            "success": False,
+            "message": "User not found."
+        }), 404
+    original_length = len(user["cart"])
+    new_cart = []
+    for item in user["cart"]:
+        if item["flavorId"] != flavor_id:
+            new_cart.append(item)
+    user["cart"] = new_cart
+    if len(user["cart"]) == original_length:
+        return jsonify({
+            "success": False,
+            "message": "Flavor not found in cart."
+        }), 404
+    return jsonify({
+        "success": True,
+        "message": "Flavor removed from cart.",
+        "cart": user["cart"]
+    })
+
+@app.route("/orders", methods=["POST"])
+def place_order():
+    data = request.json
+    user_id = data.get("userId")
+    if user_id is None:
+        return jsonify({
+            "success": False,
+            "message": "userId is required."
+        }), 400
+    try:
+        user_id = int(user_id)
+    except ValueError:
+        return jsonify({
+            "success": False,
+            "message": "Invalid userId."
+        }), 400
+    user = None
+    for current_user in users:
+        if current_user["id"] == user_id:
+            user = current_user
+            break
+    if not user:
+        return jsonify({
+            "success": False,
+            "message": "User not found."
+        }), 404
+    if len(user["cart"]) == 0:
+        return jsonify({
+            "success": False,
+            "message": "Cart is empty."
+        }), 400
+    total = 0
+    for item in user["cart"]:
+        total += item["price"] * item["quantity"]
+    order = {
+        "orderId": len(user["orders"]) + 1,
+        "items": user["cart"],
+        "total": round(total, 2),
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+    user["orders"].append(order)
+    user["cart"] = []
+    return jsonify({
+        "success": True,
+        "message": "Order placed successfully.",
+        "orderId": order["orderId"]
+    })
+
+@app.route("/orders", methods=["GET"])
+def get_orders():
+    user_id = request.args.get("userId")
+    if not user_id:
+        return jsonify({
+            "success": False,
+            "message": "userId is required."
+        }), 400
+    try:
+        user_id = int(user_id)
+    except ValueError:
+        return jsonify({
+            "success": False,
+            "message": "Invalid userId."
+        }), 400
+    user = None
+    for current_user in users:
+        if current_user["id"] == user_id:
+            user = current_user
+            break
+    if not user:
+        return jsonify({
+            "success": False,
+            "message": "User not found."
+        }), 404
+    return jsonify({
+        "success": True,
+        "message": "Order history loaded.",
+        "orders": user["orders"]
+    })
