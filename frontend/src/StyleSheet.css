@@ -18,12 +18,16 @@ border-bottom: 4px solid #e4b48c;
 font-weight: bold;
 }
 
-
 header h1 {
 margin: 0;
 font-size: 28px;
 font-weight: bold;
 }
+
+.login-control{
+    margin-left: auto;
+}
+
 /* Navigation bar under header */
 .navbar {
 background: #fff3e0;
@@ -99,8 +103,6 @@ justify-items: center;
 margin: 20px;
 }
 
-10
-
 .flavor-card {
 background: #fff8ee;
 border: 2px solid #e4b48c;
@@ -110,6 +112,7 @@ width: 180px;
 text-align: center;
 margin: 0 auto;
 }
+
 .order-list{
 background: #fff8ee;
 border: 2px solid #e4b48c;
@@ -118,4 +121,9 @@ padding: 15px;
 width: 300px;
 margin: 0 auto;
 text-align: center;
+}
+
+.no-button-link{
+    background: #ffffff;
+    color: #8b4a2b;
 }
