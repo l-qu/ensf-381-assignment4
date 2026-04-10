@@ -149,11 +149,9 @@ function SignupForm() {
         <button className="login-button" type="submit">
           Signup
         </button>
-
-        <p className="forgot-password">
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
-
+        <br />
+        
+        <Link to="/login" className = "no-button-link">Already have an account? Login</Link>
         {status && <DisplayStatus type={status.type} message={status.message} />}
       </form>
     </div>

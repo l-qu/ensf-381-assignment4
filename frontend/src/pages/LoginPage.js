@@ -11,7 +11,6 @@ return(
 
 <Header/>
 <LoginForm/>
-
 <Footer/>
 
 </div>

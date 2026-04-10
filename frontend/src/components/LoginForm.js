@@ -1,80 +1,91 @@
-import React,{useState,useEffect,createContext} from "react";
+import React,{useState, createContext} from "react";
 import AuthMessage from "./AuthMessage";
+import { Link, useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 
 function LoginForm(){
+  const [username,setUsername]=useState("")
+  const [password,setPassword]=useState("")
+  const [status,setStatus]=useState(null)
+  
+  const navigate = useNavigate();
 
-const [username,setUsername]=useState("")
-const [password,setPassword]=useState("")
-const [status,setStatus]=useState(null)
+  const handleLogin = async (e) => {
+    e.preventDefault(); 
 
-const handleLogin = (e) => {
-  e.preventDefault(); // ⚡ Stop form submission
-  if (username === "" || password === "") {
-    setStatus({ type: "error", message: "Fields cannot be empty" });
-    return;
-  }
-  if (password.length < 8) {
-    setStatus({ type: "error", message: "Password must be at least 8 characters" });
-    return;
-  }
+    if (username === "" || password === "") {
+      setStatus({ type: "error", message: "Fields cannot be empty" });
+      return;
+    }
+    if (password.length < 8) {
+      setStatus({ type: "error", message: "Password must be at least 8 characters" });
+      return;
+    }
 
-  fetch("https://jsonplaceholder.typicode.com/users")
-    .then(res => res.json())
-    .then(data => {
-      const user = data.find(u => u.username === username);
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(res => res.json())
+      .then(data => {
+        const user = data.find(u => u.username === username);
 
-      // ⚠ jsonplaceholder doesn't have 'password', using email as password here
-      if (user && user.email === password) {
-        setStatus({ type: "success", message: "Login successful" });
-        setTimeout(() => window.location = "/flavors", 2000);
-      } else {
-        setStatus({ type: "error", message: "Invalid credentials" });
-      }
+        // ⚠ jsonplaceholder doesn't have 'password', using email as password here
+        if (user && user.email === password) {
+          setStatus({ type: "success", message: "Login successful" });
+
+          // save login data
+          localStorage.setItem("loggedInUser", JSON.stringify({
+            id: user.id,
+            username: user.username,
+          }));
+
+          setTimeout(() => window.location = "/flavors", 2000);
+        } else {
+          setStatus({ type: "error", message: "Invalid credentials" });
+        }
     });
-};
+  };
+  return(
+  <AuthContext.Provider value={{status}}>
 
-return(
+    <div className="login-form">
+      <form onSubmit = {handleLogin}>
+      <h2 className="login-title">Login</h2>
 
-<AuthContext.Provider value={{status}}>
+      <label >Username </label>
+      <input
+        className="login-input"
+        placeholder="Username"
+        onChange={(e)=>setUsername(e.target.value)}
+      />
 
-<div className="login-form">
-<form>
-<h2 className="login-title">Login</h2>
+      <br/><br/>
 
-<label >Username </label>
-<input
-className="login-input"
-placeholder="Username"
-onChange={(e)=>setUsername(e.target.value)}
-/>
-<br/><br/>
-<label>Password </label>
-<input
-className="login-input"
-type="password"
-placeholder="Password"
-onChange={(e)=>setPassword(e.target.value)}
-/>
-<br/>
-<button 
-className="login-button"
-onClick={handleLogin}
->
-Login
-</button>
+      <label>Password </label>
+      <input
+        className="login-input"
+        type="password"
+        placeholder="Password"
+        onChange={(e)=>setPassword(e.target.value)}
+      />
 
-<p className="forgot-password">Forgot Password?</p>
+      <br/>
+      
+      <button 
+      className="login-button"
+      onClick={handleLogin}
+      >
+      Login
+      </button>
 
-<AuthMessage/>
-</form>
-</div>
+      <p className="forgot-password">Forgot Password?</p>
+      <Link to="/signup" className = "no-button-link">Want an account? Click here to sign up!</Link>
+      <AuthMessage/>
+      </form>
+    </div>
 
-</AuthContext.Provider>
+  </AuthContext.Provider>
 
-)
-
+  )
 }
 
 export default LoginForm;
