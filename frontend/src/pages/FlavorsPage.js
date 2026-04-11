@@ -7,21 +7,7 @@ import OrderList from "../components/OrderList";
 import { Navigate } from "react-router-dom";
 
 function FlavorsPage() {
-  const [order, setOrder] = useState([]);
   const userId = localStorage.userId;
-
-  const addToOrder = (flavor) => {
-    setOrder((prev) => {
-      const exist = prev.find((item) => item.id === flavor.id);
-      if (exist) {
-        return prev.map((item) =>
-          item.id === flavor.id ? { ...item, quantity: item.quantity + 1 } : item
-        );
-      } else {
-        return [...prev, { ...flavor, quantity: 1 }];
-      }
-    });
-  };
 
   if (!userId) {
     return <Navigate to="/login" replace />;
@@ -31,8 +17,8 @@ function FlavorsPage() {
     <div className="flavors-page">
       <Header />
       <div className="content">
-        <FlavorCatalog addToOrder={addToOrder} />
-        <OrderList order={order} setOrder={setOrder} />
+        <FlavorCatalog />
+        <OrderList />
       </div>
       <Footer />
     </div>
