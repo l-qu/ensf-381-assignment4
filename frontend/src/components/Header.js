@@ -5,10 +5,11 @@ function Header() {
   const navigate = useNavigate();
 
   const username = localStorage.getItem("username");
-  const loggedIn = !!localStorage.getItem("userId");
+  const userId = localStorage.getItem("userId")
+  const loggedIn = !!userId
 
   const handleLogout = () => {
-    localStorage.removeItem("loggedIn");
+    localStorage.removeItem("userId");
     localStorage.removeItem("username");
     navigate("/");
   };
@@ -32,7 +33,7 @@ function Header() {
         <div className="nav-links">
           <Link to="/">Home</Link>
           <Link to="/flavors">Flavors</Link>
-          <Link to="/order-history">Order History</Link>
+          <Link to="/orderHistory">Order History</Link>
         </div>
       </div>
     </>

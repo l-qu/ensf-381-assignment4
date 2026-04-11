@@ -226,7 +226,7 @@ def add_to_cart():
     cart_item = {
         "flavorId": flavor["id"],
         "name": flavor["name"],
-        "price": flavor["price"],
+        "price": float(flavor["price"].replace("$", "")),
         "quantity": 1
     }
     user["cart"].append(cart_item)

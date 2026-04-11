@@ -22,33 +22,48 @@ function LoginForm(){
       setStatus({ type: "error", message: "Password must be at least 8 characters" });
       return;
     }
+    
+    try{
+      const response = await fetch("http://127.0.0.1:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-    fetch("https://jsonplaceholder.typicode.com/users")
-      .then(res => res.json())
-      .then(data => {
-        const user = data.find(u => u.username === username);
+      const data = await response.json();
 
-        // ⚠ jsonplaceholder doesn't have 'password', using email as password here
-        if (user && user.email === password) {
-          setStatus({ type: "success", message: "Login successful" });
+      if (response.ok){
+        localStorage.setItem("userId", data.userId);
+        localStorage.setItem("username", data.username);
+        setStatus({
+          type: "success",
+          message: data.message || "Successful login!"
+        })
 
-          // save login data
-          localStorage.setItem("loggedInUser", JSON.stringify({
-            id: user.id,
-            username: user.username,
-          }));
+        setTimeout(() => {
+          navigate("/flavors");
+        }, 1000);
+      } else {
+        setStatus({
+          type: "error",
+          message: data.message || "Invalid Login"
+        })
+      }
+    } catch(error){
+      setStatus({
+        type: "error",
+        message: "Could not connect to the backend..."
+      });
+    }
 
-          setTimeout(() => window.location = "/flavors", 2000);
-        } else {
-          setStatus({ type: "error", message: "Invalid credentials" });
-        }
-    });
   };
   return(
   <AuthContext.Provider value={{status}}>
 
     <div className="login-form">
-      <form onSubmit = {handleLogin}>
+      <form>
       <h2 className="login-title">Login</h2>
 
       <label >Username </label>

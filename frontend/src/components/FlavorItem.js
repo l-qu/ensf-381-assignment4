@@ -1,40 +1,38 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
-function FlavorItem({flavor, addToOrder}){
+function FlavorItem({ flavor, addToOrder }) {
+  const [showDesc, setShowDesc] = useState(false);
 
-const [showDesc,setShowDesc] = useState(false)
+  return (
+    <div
+      className="flavor-card"
+      onMouseEnter={() => setShowDesc(true)}
+      onMouseLeave={() => setShowDesc(false)}
+    >
+      <img
+        src={flavor.image}
+        alt={flavor.name}
+        className="flavor-image"
+      />
 
-return(
+      <h3 className="flavor-name">{flavor.name}</h3>
 
-<div
-className="flavor-card"
-onMouseEnter={()=>setShowDesc(true)}
-onMouseLeave={()=>setShowDesc(false)}
->
+      <p className="flavor-price">
+        {typeof flavor.price === "string" ? flavor.price : `$${flavor.price.toFixed(2)}`}
+      </p>
 
-<img 
-src={flavor.image} 
-alt={flavor.name}
-className="flavor-image"
-/>
+      {showDesc && (
+        <p className="flavor-description">{flavor.description}</p>
+      )}
 
-<h3 className="flavor-name">{flavor.name}</h3>
-
-<p className="flavor-price">${flavor.price}</p>
-
-{showDesc && <p className="flavor-description">{flavor.description}</p>}
-
-<button 
-className="add-button"
-onClick={()=>addToOrder(flavor)}
->
-Add to Order
-</button>
-
-</div>
-
-)
-
+      <button
+        className="add-button"
+        onClick={() => addToOrder(flavor)}
+      >
+        Add to Order
+      </button>
+    </div>
+  );
 }
 
 export default FlavorItem;

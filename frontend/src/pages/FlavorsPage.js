@@ -4,9 +4,11 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FlavorCatalog from "../components/FlavorCatalog";
 import OrderList from "../components/OrderList";
+import { Navigate } from "react-router-dom";
 
 function FlavorsPage() {
   const [order, setOrder] = useState([]);
+  const userId = localStorage.userId;
 
   const addToOrder = (flavor) => {
     setOrder((prev) => {
@@ -20,6 +22,10 @@ function FlavorsPage() {
       }
     });
   };
+
+  if (!userId) {
+    return <Navigate to="/login" replace />;
+  }
 
   return (
     <div className="flavors-page">
