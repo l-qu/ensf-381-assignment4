@@ -110,46 +110,46 @@ function SignupForm() {
       <form onSubmit={handleSignup}>
         <h2 className="login-title">Signup</h2>
 
-        <label>Username </label>
+        <label>Username: </label>
         <input
           className="login-input"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
-        <br /><br />
+        <br/><br/>
 
-        <label>Email </label>
+        <label>Email: </label>
         <input
           className="login-input"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <br /><br />
+        <br/><br/>
 
-        <label>Password </label>
+        <label>Password: </label>
         <input
           className="login-input"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <br /><br />
+        <br/><br/>
 
-        <label>Confirm Password </label>
+        <label>Confirm Password: </label>
         <input
           className="login-input"
           type="password"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
-        <br />
+        <br/> <br/>
 
         <button className="login-button" type="submit">
           Signup
         </button>
-        <br />
+        <br/>
         
         <Link to="/login" className = "no-button-link">Already have an account? Login</Link>
         {status && <DisplayStatus type={status.type} message={status.message} />}
