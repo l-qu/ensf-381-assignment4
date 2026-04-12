@@ -42,6 +42,10 @@ users = [
 app = Flask(__name__)
 CORS(app)
 
+@app.route("/")
+def home():
+    return "Backend is running"
+
 def is_valid_username(username):
     return re.match(r'^[A-Za-z][A-Za-z0-9_-]{2,19}$', username)
 
@@ -411,3 +415,6 @@ def get_orders():
         "message": "Order history loaded.",
         "orders": user["orders"]
     })
+
+if __name__ == "__main__":
+    app.run()
