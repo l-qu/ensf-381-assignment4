@@ -1,3 +1,6 @@
+# Lindsey Quong (30245714)
+# Gianna Kong (30241947)
+
 import re
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -8,6 +11,7 @@ import json
 import random
 
 users = [
+    # test person, password=password123
     {
         "id": 1,
         "username": "sweet_alice",
