@@ -92,6 +92,8 @@ function LoginForm(){
       Login
       </button>
 
+      {/* the forgot-password element is styled to match the other buttons, but is non-functional 
+      and is left unchanged using a <p> tag from the posted assignment 3 solution */}
       <p className="forgot-password">Forgot Password?</p>
       <Link to="/signup" className = "no-button-link">Want an account? Click here to sign up!</Link>
       <AuthMessage/>
